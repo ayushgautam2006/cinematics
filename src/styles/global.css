@@ -1,0 +1,325 @@
+@import '@fontsource/archivo/latin-300.css';
+@import '@fontsource/archivo/latin-400.css';
+@import '@fontsource/archivo/latin-500.css';
+@import '@fontsource/archivo/latin-600.css';
+@import '@fontsource/archivo/latin-800.css';
+@import '@fontsource/jetbrains-mono/latin-400.css';
+@import '@fontsource/jetbrains-mono/latin-500.css';
+@import './tokens.css';
+
+/* ---------- RESET ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink-000);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  font-weight: 400;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(215, 25, 47, 0.35);
+  color: var(--text-hi);
+}
+
+/* Thin dark scrollbar — the page is a cinematic surface, not a document. */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink-000);
+}
+::-webkit-scrollbar-thumb {
+  background: #1d1d1e;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--red-dark);
+}
+
+/* ============================================================
+   TYPE PRIMITIVES
+   ============================================================ */
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: var(--tracking-mega);
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.t-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.02;
+  text-transform: uppercase;
+}
+
+/* Wide-tracked mono caps — the technical voice of the interface. */
+.t-micro {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 400;
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  color: var(--text-low);
+}
+
+.t-body {
+  font-size: var(--fs-sm);
+  line-height: 1.62;
+  color: var(--text-mid);
+  font-weight: 300;
+}
+
+.t-red {
+  color: var(--red-cine);
+}
+
+/* Thin weight paired against heavy weight — the editorial two-tone
+   lockup seen across the references (IRON MAN, MY PROJECT X). */
+.t-thin {
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   SMOKED GLASS SURFACES
+   ============================================================ */
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.1);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.1);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+}
+
+/* A single soft red reflection raked across the top of every glass panel.
+   This is what keeps the glass from reading as neutral grey plastic. */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    150deg,
+    rgba(215, 25, 47, 0.09) 0%,
+    rgba(215, 25, 47, 0.02) 26%,
+    transparent 52%
+  );
+  opacity: 0.9;
+  transition: opacity var(--dur-mid) var(--ease-cine);
+}
+
+.glass-interactive {
+  transition:
+    background var(--dur-mid) var(--ease-cine),
+    border-color var(--dur-mid) var(--ease-cine),
+    box-shadow var(--dur-mid) var(--ease-cine),
+    transform var(--dur-mid) var(--ease-cine);
+}
+
+.glass-interactive:hover {
+  background: var(--glass-bg-raised);
+  border-color: var(--glass-border-red);
+  box-shadow: var(--glass-shadow), var(--glass-shadow-red);
+}
+
+.glass-interactive:hover::before {
+  opacity: 1.35;
+}
+
+.glass-interactive:focus-visible {
+  outline: 1px solid var(--red-cine);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   ATMOSPHERE — grain, vignette, scanline haze
+   Applied over the whole app so the 3D canvas and the DOM share
+   one film surface rather than looking like two layers.
+   ============================================================ */
+
+.atmos {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-overlay);
+}
+
+.atmos-vignette {
+  background:
+    radial-gradient(120% 90% at 50% 45%, transparent 42%, rgba(0, 0, 0, 0.55) 100%),
+    radial-gradient(80% 60% at 50% 110%, rgba(58, 5, 9, 0.28) 0%, transparent 70%);
+}
+
+/* Film grain. SVG feTurbulence baked to a data URI — no network, no image file. */
+.atmos-grain {
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  animation: grain-shift 640ms steps(3) infinite;
+}
+
+@keyframes grain-shift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  33% {
+    transform: translate3d(-2%, 1%, 0);
+  }
+  66% {
+    transform: translate3d(1%, -2%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Very subtle matte texture on the page ground so black never goes dead flat. */
+.atmos-matte {
+  opacity: 0.4;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.012) 0px,
+      rgba(255, 255, 255, 0.012) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+/* ============================================================
+   SHARED UTILITIES
+   ============================================================ */
+
+.hairline {
+  height: 1px;
+  background: var(--hairline);
+  border: 0;
+  width: 100%;
+}
+
+.rule-red {
+  height: 1px;
+  width: 100%;
+  background: var(--grad-red-edge);
+}
+
+/* Small red status dot with a slow breathing pulse (LIVE indicators). */
+.dot-live {
+  width: 6px;
+  height: 6px;
+  border-radius: 99px;
+  background: var(--red-cine);
+  box-shadow: 0 0 0 0 rgba(215, 25, 47, 0.6);
+  animation: dot-pulse 2.4s var(--ease-cine) infinite;
+  flex: none;
+}
+
+@keyframes dot-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(215, 25, 47, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(215, 25, 47, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(215, 25, 47, 0);
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   Everything still reads; it simply stops moving on its own.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .atmos-grain {
+    animation: none;
+  }
+}

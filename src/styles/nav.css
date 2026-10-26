@@ -1,0 +1,224 @@
+/* ============================================================
+   NAVIGATION CONTROL — top-left glass chip
+   ============================================================ */
+
+.nav {
+  position: fixed;
+  top: var(--rail);
+  left: var(--rail);
+  z-index: var(--z-nav);
+}
+
+.nav__shell {
+  border-radius: var(--radius);
+  min-width: 246px;
+  transition:
+    border-color var(--dur-mid) var(--ease-cine),
+    background var(--dur-mid) var(--ease-cine),
+    box-shadow var(--dur-mid) var(--ease-cine);
+}
+
+.nav__shell:hover {
+  border-color: var(--glass-border-hi);
+}
+
+.nav__shell.is-open {
+  border-color: var(--glass-border-red);
+  box-shadow: var(--glass-shadow), var(--glass-shadow-red);
+}
+
+/* ---------- trigger row ---------- */
+
+.nav__trigger {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.62rem 0.72rem 0.62rem 0.68rem;
+  text-align: left;
+}
+
+.nav__trigger:focus-visible {
+  outline: 1px solid var(--red-cine);
+  outline-offset: -1px;
+  border-radius: var(--radius);
+}
+
+.nav__mark {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: var(--text-hi);
+  transition: color var(--dur-mid) var(--ease-cine), transform var(--dur-slow) var(--ease-cine);
+}
+
+.nav__shell.is-open .nav__mark {
+  color: var(--red-cine);
+  transform: rotate(60deg);
+}
+
+.nav__wordmark {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  color: var(--text-hi);
+}
+
+.nav__wordmark em {
+  display: block;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  color: var(--text-low);
+}
+
+/* Current route, shown only once there is room for it. */
+.nav__current {
+  color: var(--text-mid);
+  padding-right: 0.1rem;
+}
+
+.nav__chevron {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: var(--text-mid);
+  border-left: 1px solid var(--hairline);
+  padding-left: 0.55rem;
+  box-sizing: content-box;
+  transition: transform var(--dur-mid) var(--ease-cine), color var(--dur-mid) var(--ease-cine);
+}
+
+.nav__chevron.is-open {
+  transform: rotate(180deg);
+  color: var(--red-cine);
+}
+
+/* ---------- dropdown ---------- */
+
+.nav__menu {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-mid) var(--ease-cine);
+}
+
+.nav__shell.is-open .nav__menu {
+  grid-template-rows: 1fr;
+}
+
+.nav__menu-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.nav__rule {
+  height: 1px;
+  background: var(--hairline);
+  margin: 0 0.72rem;
+}
+
+.nav__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.85rem 1fr auto;
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.6rem 0.72rem;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition:
+    opacity var(--dur-mid) var(--ease-cine),
+    transform var(--dur-mid) var(--ease-cine),
+    background var(--dur-fast) var(--ease-cine);
+  transition-delay: calc(var(--i) * 55ms);
+}
+
+.nav__shell.is-open .nav__item {
+  opacity: 1;
+  transform: none;
+}
+
+.nav__item:hover,
+.nav__item:focus-visible {
+  background: linear-gradient(
+    90deg,
+    rgba(215, 25, 47, 0.14) 0%,
+    rgba(215, 25, 47, 0.02) 55%,
+    transparent 100%
+  );
+  outline: none;
+}
+
+.nav__index {
+  color: var(--text-faint);
+  transition: color var(--dur-fast) var(--ease-cine);
+}
+
+.nav__item:hover .nav__index {
+  color: var(--red-cine);
+}
+
+.nav__label {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  transition: color var(--dur-fast) var(--ease-cine);
+}
+
+.nav__item:hover .nav__label {
+  color: var(--text-hi);
+}
+
+.nav__meta {
+  color: var(--text-faint);
+}
+
+.nav__marker {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 2px;
+  height: 0;
+  background: var(--red-cine);
+  transform: translateY(-50%);
+  transition: height var(--dur-mid) var(--ease-cine);
+}
+
+.nav__item.is-active .nav__marker {
+  height: 60%;
+}
+
+.nav__item.is-active .nav__label {
+  color: var(--text-hi);
+}
+
+.nav__item.is-active .nav__index {
+  color: var(--red-cine);
+}
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width: 560px) {
+  .nav__shell {
+    min-width: 0;
+  }
+  .nav__current {
+    display: none;
+  }
+  .nav__trigger {
+    grid-template-columns: auto 1fr auto;
+    gap: 0.55rem;
+  }
+}

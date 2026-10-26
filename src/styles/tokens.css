@@ -1,0 +1,122 @@
+/* ============================================================
+   CINEMATICS PRODUCTION — DESIGN TOKENS
+   Matte black · red gradient · smoked glass
+   Ratio target: 70% black space / 20% glass / 10% red
+   ============================================================ */
+
+:root {
+  /* ---------- MATTE BLACK FIELD ----------
+     Never pure #000 across the board. Four graded blacks so the page
+     has depth without ever looking like a flat canvas. */
+  --ink-000: #050505; /* deepest — page ground */
+  --ink-100: #080808; /* section ground */
+  --ink-200: #0d0d0d; /* raised surface */
+  --ink-300: #111111; /* highest matte surface */
+  --ink-400: #17181a; /* hairline / divider ground */
+
+  /* ---------- RED GRADIENT SYSTEM ----------
+     Read as cinematic lighting, not decoration. */
+  --red-burgundy: #3a0509;
+  --red-dark: #680b12;
+  --red-crimson: #a30f1b;
+  --red-cine: #d7192f;
+  --red-hot: #ff2f45; /* highlight only — never a fill */
+
+  --grad-red-sweep: linear-gradient(
+    135deg,
+    var(--red-burgundy) 0%,
+    var(--red-dark) 38%,
+    var(--red-crimson) 72%,
+    var(--red-cine) 100%
+  );
+  --grad-red-edge: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(215, 25, 47, 0.55) 50%,
+    transparent 100%
+  );
+  /* Atmospheric pool of red light behind the 3D equipment. */
+  --grad-red-bloom: radial-gradient(
+    60% 55% at 50% 50%,
+    rgba(215, 25, 47, 0.28) 0%,
+    rgba(163, 15, 27, 0.14) 30%,
+    rgba(58, 5, 9, 0.06) 58%,
+    transparent 78%
+  );
+
+  /* ---------- TYPE COLOR ---------- */
+  --text-hi: #f4f2f0; /* off-white, never pure white */
+  --text-mid: #a8a6a4;
+  --text-low: #6a6866;
+  --text-faint: #3d3c3b;
+
+  /* ---------- SMOKED GLASS ----------
+     Dark and subtle. Never bright-white glassmorphism. */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-raised: rgba(255, 255, 255, 0.065);
+  --glass-bg-deep: rgba(10, 10, 11, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-hi: rgba(255, 255, 255, 0.18);
+  --glass-border-red: rgba(215, 25, 47, 0.38);
+  --glass-blur: 20px;
+  --glass-blur-heavy: 34px;
+  --glass-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.85);
+  --glass-shadow-red: 0 18px 60px -24px rgba(163, 15, 27, 0.45);
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-display: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Fluid display scale — editorial, tight, premium. */
+  /* Sized so CINEMATICS occupies roughly the left 42% of a desktop frame.
+     The camera is the protagonist; the type is the caption. */
+  --fs-mega: clamp(2.5rem, 6.1vw, 6.6rem);
+  --fs-xxl: clamp(2.4rem, 7vw, 6.4rem);
+  --fs-xl: clamp(1.9rem, 4.4vw, 3.6rem);
+  --fs-lg: clamp(1.35rem, 2.4vw, 2rem);
+  --fs-md: clamp(1rem, 1.25vw, 1.125rem);
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.75rem;
+  --fs-micro: 0.625rem; /* mono labels */
+
+  --tracking-mega: -0.045em;
+  --tracking-tight: -0.025em;
+  --tracking-micro: 0.24em; /* wide-tracked mono caps */
+
+  /* ---------- MOTION ----------
+     Cinematic camera movement, not bouncy web animation.
+     No overshoot anywhere in this system. */
+  --ease-cine: cubic-bezier(0.65, 0.02, 0.15, 1);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-mech: cubic-bezier(0.5, 0, 0.2, 1); /* mechanical, gimbal-like */
+  --dur-fast: 260ms;
+  --dur-mid: 520ms;
+  --dur-slow: 900ms;
+
+  /* ---------- LAYOUT ---------- */
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --rail: clamp(1rem, 2.2vw, 2rem);
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --hairline: rgba(255, 255, 255, 0.08);
+
+  /* ---------- Z-ORDER ---------- */
+  --z-canvas: 1;
+  --z-scene-ui: 10;
+  --z-overlay: 40;
+  --z-nav: 60;
+  --z-loader: 90;
+
+  color-scheme: dark;
+}
+
+/* Mobile trims the display scale so the 3D object keeps the stage. */
+@media (max-width: 720px) {
+  :root {
+    --fs-mega: clamp(2.3rem, 11.5vw, 3.6rem);
+    --glass-blur: 14px;
+    --glass-blur-heavy: 20px;
+  }
+}

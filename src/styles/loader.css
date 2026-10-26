@@ -1,0 +1,111 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  display: grid;
+  place-items: center;
+  background: var(--ink-000);
+  transition:
+    opacity 820ms var(--ease-cine),
+    visibility 820ms var(--ease-cine);
+}
+
+/* The iris opens: two panels part vertically as the site is revealed. */
+.loader::before,
+.loader::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: var(--ink-000);
+  transition: transform 900ms var(--ease-cine);
+  z-index: -1;
+}
+
+.loader::before {
+  top: 0;
+}
+.loader::after {
+  bottom: 0;
+}
+
+.loader.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  background: transparent;
+}
+
+.loader.is-leaving::before {
+  transform: translateY(-100%);
+}
+.loader.is-leaving::after {
+  transform: translateY(100%);
+}
+
+.loader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  transition: opacity 400ms var(--ease-cine), transform 600ms var(--ease-cine);
+}
+
+.loader.is-leaving .loader__inner {
+  opacity: 0;
+  transform: scale(1.04);
+}
+
+.loader__mark {
+  color: var(--red-cine);
+  transition: transform 900ms var(--ease-cine);
+}
+
+.loader.is-leaving .loader__mark {
+  transform: rotate(90deg);
+}
+
+.loader__wordmark {
+  text-align: center;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
+.loader__wordmark span {
+  display: block;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  color: var(--text-hi);
+  text-indent: 0.32em;
+}
+
+.loader__wordmark em {
+  display: block;
+  font-style: normal;
+  font-size: 0.66rem;
+  font-weight: 300;
+  letter-spacing: 0.42em;
+  color: var(--text-low);
+  text-indent: 0.42em;
+  margin-top: 0.3rem;
+}
+
+.loader__rail {
+  width: min(210px, 40vw);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  margin-top: 0.6rem;
+}
+
+.loader__bar {
+  height: 100%;
+  background: var(--grad-red-sweep);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.loader__note {
+  color: var(--text-faint);
+}
