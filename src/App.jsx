@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy, Suspense, useCallback } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { ScrollProvider } from './animations/scroll'
 import { useRoute } from './components/router'
 import Nav from './components/Nav'
@@ -55,6 +56,7 @@ export default function App() {
 
       <Atmosphere />
       <LoadingScreen ready={sceneReady || route === 'live'} />
+      <Analytics />
     </ScrollProvider>
   )
 }
